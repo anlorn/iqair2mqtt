@@ -127,3 +127,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# vim
+*.swp
+*.swo
+
+# Project custom
+latest_config_measurements.json
+mqtt_json.example.json
+test_envs.sh
+
