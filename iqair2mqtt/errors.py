@@ -18,8 +18,12 @@ class IQAirConnectionError(Exception):
 
     def __init__(self, iqair_ip):
         self.iqair_ip = iqair_ip
-        message = f"Can't to connect IQAir on '{self.iqair_ip}'"
-        super().__init__(message)
+        super().__init__()
+
+    def __str__(self):
+        # self.__cause__ is empty on __init__
+        message = f"Can't to connect IQAir on '{self.iqair_ip}' because '{self.__cause__}'"
+        return message
 
 
 class IQAirMeasurementsFileNotFoundOrWrong(Exception):

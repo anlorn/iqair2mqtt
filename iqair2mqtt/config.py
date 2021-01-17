@@ -51,4 +51,4 @@ class Config:
 
     @property
     def update_interal(self) -> int:
-        return 3
+        return 15

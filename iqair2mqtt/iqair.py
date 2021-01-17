@@ -1,6 +1,7 @@
 import json
 import logging
 import tempfile
+from socket import timeout
 from typing import Dict
 
 from smb.SMBConnection import SMBConnection
@@ -67,11 +68,11 @@ class IQAir:
                 if not connected:
                     raise errors.WrongIQAirLoginOrPassword(self._ip)
                 logger.debug(
-                    "Was able to connect to IQAir on %s",
+                    "Connected to IQAir on %s",
                     self._ip
                 )
                 break
-            except ConnectionError as exc:
+            except (ConnectionError, timeout) as exc:
                 # we will retry connection
                 if connection_attempt < CONNECTION_ATTEMPTS:
                     logger.warning(
@@ -84,7 +85,7 @@ class IQAir:
             else:
                 if connection_attempt > 1:
                     logger.info(
-                        "Was able to connection to IQAir after %d attemps, check for network problems",
+                        "Connected to IQAir after %d attemps, check for network problems",
                         connection_attempt
                     )
         return connection
