@@ -25,7 +25,17 @@ class IQAir:
         self._login = login
         self._password = password
 
-        # just verify right on the start that provided credentials/ip are correct
+    def noop(self):
+        """
+        Function just connects to IQAIR and rigt after disconnects. Can be used for
+        checking provided credentials/ip are correct.
+        Can raise the exceptions:
+            1) IQAirConnectionError - if can't connect to airvisual, check IP
+            2) WrongIQAirLoginOrPassword - if provided login/password is wrong, check credentials
+
+        No exceptions means everything was okay
+
+        """
         connection = self._connect_to_iqair()
         if connection:
             connection.close()

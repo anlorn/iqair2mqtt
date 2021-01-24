@@ -24,8 +24,9 @@ def main(config_path: str, debug: bool):
         logging.getLogger('SMB').setLevel(logging.WARNING)
 
     config = Config(config_path)
+    iqair_device = IQAir(config.iqair_ip, config.iqair_login, config.iqair_password)
     try:
-        iqair_device = IQAir(config.iqair_ip, config.iqair_login, config.iqair_password)
+        iqair_device.noop()  # test connection to IQAIR
     except errors.IQAirConnectionError as exc:
         logger.warning(
             "Can't connect to IQAir. Check config. Err: %s",
