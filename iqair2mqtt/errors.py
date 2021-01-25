@@ -32,3 +32,10 @@ class IQAirMeasurementsFileNotFoundOrWrong(Exception):
         self.iqair_ip = iqair_ip
         message = f"IQAir on '{self.iqair_ip}' doesn't have measuerements file, or file isn't json"
         super().__init__(message)
+
+
+class IQAirDataCorrupted(Exception):
+
+    def __init__(self, err):
+        message = f"Can't parse IQAir measurements. Error: {err}"
+        super().__init__(message)

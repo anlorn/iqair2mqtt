@@ -52,3 +52,11 @@ class Config:
     @property
     def update_interal(self) -> int:
         return 15
+
+    @property
+    def get_location(self) -> str:
+        return "some_location"
+
+    @property
+    def get_placement(self) -> str:
+        return "some_placement"
