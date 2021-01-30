@@ -46,7 +46,7 @@ def main(config_path: str, debug: bool):
                 exc
             )
             continue
-        iqair_measurements = parse_measurements(raw_iqair_measurements)
+        iqair_measurements = parse_measurements(config, raw_iqair_measurements)
 
         # check measurements we got from IQAir are new compare to ones
         # we published last time
@@ -63,5 +63,5 @@ def main(config_path: str, debug: bool):
 
             mqtt_publisher.publish(iqair_measurements.to_json())
             latest_new_measurement = iqair_measurements  # save last published measurements
-
+        logger.debug("Sleeping for %d seconds", config.update_interal)
         time.sleep(config.update_interal)

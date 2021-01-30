@@ -14,21 +14,19 @@ class IQAirMeasurement(NamedTuple):
 
 class IQAirMeasurements:
 
-    def __init__(self, device: IQAirDevice, measurements: List[IQAirMeasurement]):
+    def __init__(self, revision: int, device: IQAirDevice, measurements: List[IQAirMeasurement]):
+
+        # just in case check and fall early
+        if not isinstance(revision, int):
+            raise TypeError("Revision must be an integer")
+        self.revision = revision
         self.measurements = measurements
         self.device = device
 
     def to_json(self) -> str:
-        data = {
-            'location': self.device.location,
-            'device_type': 'iqair',
-            'device_name': self.device.name,
-            'external': self.device.external,
-            'placement': self.device.placement,
-            'measurement': []
-        }
+        measurements = []
         for measurement in self.measurements:
-            data['measurement'].append(
+            measurements.append(
                 {
                     'measered_at': measurement.measured_at,
                     'type': measurement.name,
@@ -36,4 +34,29 @@ class IQAirMeasurements:
                     'unit': measurement.unit,
                 }
             )
+
+        data = {
+            'location': self.device.location,
+            'device_type': 'iqair',
+            'device_name': self.device.name,
+            'external': self.device.external,
+            'placement': self.device.placement,
+            'measurements': measurements
+        }
+
         return json.dumps(data)
+
+    def __lt__(self, other):
+        if isinstance(other, self.__class__):
+            raise TypeError(f"Can't compare {self.__class__} to {type(other)}")
+        return self.revision < other.revision
+
+    def __gt__(self, other):
+        if isinstance(other, self.__class__):
+            raise TypeError(f"Can't compare {self.__class__} to {type(other)}")
+        return self.revision > other.revision
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            raise TypeError(f"Can't compare {self.__class__} to {type(other)}")
+        return self.revision == other.revision
