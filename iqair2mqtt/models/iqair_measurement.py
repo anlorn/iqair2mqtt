@@ -28,7 +28,7 @@ class IQAirMeasurements:
         for measurement in self.measurements:
             measurements.append(
                 {
-                    'measered_at': measurement.measured_at,
+                    'measered_at': measurement.measured_at.isoformat(),
                     'type': measurement.name,
                     'value': measurement.value,
                     'unit': measurement.unit,
@@ -47,16 +47,31 @@ class IQAirMeasurements:
         return json.dumps(data)
 
     def __lt__(self, other):
-        if isinstance(other, self.__class__):
+        if not isinstance(other, self.__class__):
             raise TypeError(f"Can't compare {self.__class__} to {type(other)}")
         return self.revision < other.revision
 
+    def __le__(self, other):
+        if not isinstance(other, self.__class__):
+            raise TypeError(f"Can't compare {self.__class__} to {type(other)}")
+        return self.revision <= other.revision
+
     def __gt__(self, other):
-        if isinstance(other, self.__class__):
+        if not isinstance(other, self.__class__):
             raise TypeError(f"Can't compare {self.__class__} to {type(other)}")
         return self.revision > other.revision
 
+    def __ge__(self, other):
+        if not isinstance(other, self.__class__):
+            raise TypeError(f"Can't compare {self.__class__} to {type(other)}")
+        return self.revision >= other.revision
+
     def __eq__(self, other):
-        if isinstance(other, self.__class__):
+        if not isinstance(other, self.__class__):
+            raise TypeError(f"Can't compare {self.__class__} to {type(other)}")
+        return self.revision == other.revision
+
+    def __ne__(self, other):
+        if not isinstance(other, self.__class__):
             raise TypeError(f"Can't compare {self.__class__} to {type(other)}")
         return self.revision == other.revision

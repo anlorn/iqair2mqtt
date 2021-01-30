@@ -36,7 +36,7 @@ def main(config_path: str, debug: bool):
 
     mqtt_publisher = MQTTPublisher(config.mqtt_hostname, config.mqtt_login, config.mqtt_password)
 
-    latest_new_measurement = None
+    last_measurements = None
     while True:
         try:
             raw_iqair_measurements = iqair_device.get_latest_measurements()
@@ -50,7 +50,7 @@ def main(config_path: str, debug: bool):
 
         # check measurements we got from IQAir are new compare to ones
         # we published last time
-        if latest_new_measurement is None or iqair_measurements <= latest_new_measurement:
+        if last_measurements is not None and last_measurements >= iqair_measurements:
             logger.info(
                 "Measurements '%s' from IQAir were already published, will not publish",
                 iqair_measurements
@@ -62,6 +62,6 @@ def main(config_path: str, debug: bool):
             )
 
             mqtt_publisher.publish(iqair_measurements.to_json())
-            latest_new_measurement = iqair_measurements  # save last published measurements
+            last_measurements = iqair_measurements  # save last published measurements
         logger.debug("Sleeping for %d seconds", config.update_interal)
         time.sleep(config.update_interal)
