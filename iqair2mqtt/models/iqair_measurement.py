@@ -74,4 +74,4 @@ class IQAirMeasurements:
     def __ne__(self, other):
         if not isinstance(other, self.__class__):
             raise TypeError(f"Can't compare {self.__class__} to {type(other)}")
-        return self.revision == other.revision
+        return self.revision != other.revision
