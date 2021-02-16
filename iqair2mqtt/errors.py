@@ -39,3 +39,11 @@ class IQAirDataCorrupted(Exception):
     def __init__(self, err):
         message = f"Can't parse IQAir measurements. Error: {err}"
         super().__init__(message)
+
+
+class MQTTBrokerNotConnected(Exception):
+
+    def __init__(self):
+        message = "MQTT broker not conected"
+        super().__init__(message)
+

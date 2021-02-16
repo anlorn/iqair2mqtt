@@ -60,3 +60,7 @@ class Config:
     @property
     def get_placement(self) -> str:
         return "some_placement"
+
+    @property
+    def get_topic(self) -> str:
+        return "iqair2mqtt"

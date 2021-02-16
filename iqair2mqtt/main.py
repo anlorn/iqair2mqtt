@@ -34,7 +34,14 @@ def main(config_path: str, debug: bool):
         )
         return
 
-    mqtt_publisher = MQTTPublisher(config.mqtt_hostname, config.mqtt_login, config.mqtt_password)
+    mqtt_publisher = MQTTPublisher(
+        config.mqtt_hostname,
+        config.mqtt_login,
+        config.mqtt_password,
+        config.get_topic,
+    )
+
+    mqtt_publisher.connect()
 
     last_measurements = None
     while True:
